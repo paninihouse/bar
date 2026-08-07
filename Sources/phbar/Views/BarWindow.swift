@@ -6,29 +6,29 @@ final class BarWindow: NSPanel {
 	init(contentRect: NSRect) {
 		super.init(
 			contentRect: contentRect,
-			styleMask: [.nonactivatingPanel],
+			styleMask: [.nonactivatingPanel, .borderless],
 			backing: .buffered,
 			defer: false
 		)
 
-		isFloatingPanel = true
-		isOpaque = false
+		animationBehavior = .none
 		backgroundColor = .clear
-		hasShadow = false
-		hidesOnDeactivate = false
-		isReleasedWhenClosed = false
-		isMovable = false
 		becomesKeyOnlyIfNeeded = true
-		level = .floating
 		collectionBehavior = [
 			.canJoinAllSpaces,
 			.fullScreenAuxiliary,
-			.stationary,
 			.fullScreenNone,
+			.stationary,
 		]
-		animationBehavior = .none
+		hasShadow = false
+		hidesOnDeactivate = false
+		isFloatingPanel = true
+		isMovable = false
+		isOpaque = false
+		isReleasedWhenClosed = false
+		level = .floating
 	}
 
-	override var canBecomeKey: Bool { true }
 	override var canBecomeMain: Bool { false }
+	override var canBecomeKey: Bool { true }
 }
