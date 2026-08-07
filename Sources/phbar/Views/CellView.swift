@@ -1,13 +1,11 @@
 import SwiftUI
 
 struct CellView: View {
-	var text: String
+	var cell: Cell
 
 	var body: some View {
-		VStack {
-			Text(text)
-		}
-		.frame(height: Config.height)
-		.background(Color.cyan)
+		Text(cell.rawValue)
+			.frame(height: Config.height)
+			.background(cell.background)
 	}
 }

@@ -5,8 +5,8 @@ struct BlockView: View {
 
 	var body: some View {
 		HStack(spacing: 0) {
-			ForEach(block.cells.indices, id: \.self) { index in
-				CellView(text: block.cells[index])
+			ForEach(block.cells) { cell in
+				CellView(cell: cell)
 			}
 		}
 	}
