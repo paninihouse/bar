@@ -23,7 +23,7 @@ struct HEX {
 	/// Creates a hex color from the given code.
 	///
 	/// - Parameter code: A hex color code. Stored verbatim; see ``HEX`` for the
-	///   accepted formats.
+	///                   accepted formats.
 	init(code: String) {
 		self.code = code
 	}
@@ -40,8 +40,8 @@ extension SwiftUI.Color {
 	/// Supported formats (the leading `#` is optional): `#RGB`, `#RGBA`,
 	/// `#RRGGBB`, and `#RRGGBBAA`. Single-digit components are expanded by
 	/// repeating the digit. When present, the trailing digits encode alpha
-	/// (opacity); otherwise opacity defaults to `1`. Malformed input resolves to
-	/// opaque black.
+	/// (opacity); otherwise opacity defaults to `1`. Malformed input resolves
+	/// to opaque black.
 	///
 	/// - Parameter code: A hex color code.
 	static func hex(_ code: String) -> SwiftUI.Color {
@@ -93,9 +93,9 @@ extension SwiftUI.Color {
 extension SwiftUI.Color.Resolved {
 	/// The hex code for this resolved color.
 	///
-	/// Components are clamped to `0...1` and quantized to 8 bits. The result is a
-	/// 6-digit `#RRGGBB` code, or an 8-digit `#RRGGBBAA` code when the color is
-	/// not fully opaque.
+	/// Components are clamped to `0...1` and quantized to 8 bits.
+	/// The result is a 6-digit `#RRGGBB` code, or an 8-digit `#RRGGBBAA` code
+	/// when the color is not fully opaque.
 	var hex: HEX {
 		let r = Int((min(max(Double(red), 0), 1) * 255).rounded())
 		let g = Int((min(max(Double(green), 0), 1) * 255).rounded())

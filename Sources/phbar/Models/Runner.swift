@@ -1,6 +1,6 @@
 import Foundation
 
-/// Runs a shell command and returns its stdout as cells (one per line).
+/// Runs a shell command and returns its stdout as separate lines.
 ///
 /// Blocking — always call from a background context (e.g. `Task.detached`).
 enum Runner {
@@ -34,9 +34,9 @@ enum Runner {
 		return parse(String(data: data, encoding: .utf8) ?? "")
 	}
 
-	/// Split output into cells: one per line. A single trailing newline (from a
-	/// final `\n`) is dropped; blank lines elsewhere are kept so a script can
-	/// emit intentional gaps.
+	/// Split output into lines. A single trailing newline
+	/// (from a final `\n`) is dropped; blank lines elsewhere
+	/// are kept so a script can emit intentional gaps.
 	static func parse(_ text: String) -> [String] {
 		var lines = text.components(separatedBy: "\n")
 		if lines.last == "" { lines.removeLast() }
