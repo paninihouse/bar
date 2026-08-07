@@ -1,32 +1,64 @@
 import Foundation
 
-// Darwin notifications via CoreFoundation — the macOS-native, signal-like way
-// to trigger a refresh from the shell with no client binary:
-//
-//     notifyutil -p <prefix><name>
-//
-// e.g.   notifyutil -p house.panini.phbar.touch.workspaces
-//
-// (notify.h isn't part of Swift's Darwin module, so we go through
-// CFNotificationCenter, which talks to the same subsystem.)
-//
-// The callback fires on an arbitrary thread; handlers must hop to the main
-// actor themselves (see AppDelegate.handleRefresh).
-
 /// Retains the handler for the lifetime of the registration.
+///
+/// The raw pointer returned by ``Notifier/register(_:handler:)``
+/// is a retained reference to this box; it is released when
+/// the registration is cancelled.
 private final class NotifyBox {
 	let handler: @Sendable () -> Void
 	init(_ handler: @escaping @Sendable () -> Void) { self.handler = handler }
 }
 
+/// Delivers refresh triggers via Darwin notifications.
+///
+/// Wraps CoreFoundation notifications — the macOS-native,
+/// signal-like way to trigger behaviour from the shell with
+/// no client binary, using `notifyutil`:
+///
+/// ```
+/// notifyutil -p <prefix><name>
+/// ```
+///
+/// Each category of events uses a different ``prefix``
+/// to avoid collisions. For example, block refresh
+/// notifications use ``touchPrefix``:
+///
+/// ```
+/// notifyutil -p house.panini.phbar.touch.<name>
+/// ```
+///
+/// > Note: `notify.h` isn't part of Swift's Darwin module,
+/// > so we go through `CFNotificationCenter`, which talks
+/// > to the same subsystem.
+/// >
+/// > The callback fires on an arbitrary thread; handlers
+/// > must hop to the main actor themselves (see ``AppDelegate``).
 enum Notifier {
-	static let prefix = "house.panini.phbar.touch."
+	/// Prefix for block refresh notifications.
+	///
+	/// Use `notifyutil -p house.panini.phbar.touch.<name>` to trigger
+	/// a block update from the shell.
+	static let touchPrefix = "house.panini.phbar.touch."
 
 	/// Register `handler` to fire whenever the notification is posted.
+	///
+	/// - Parameters:
+	///   - name: The notification name suffix.
+	///   - prefix: The full notification name will be `prefix + name`.
+	///             Defaults to ``touchPrefix``.
+	///   - handler: Closure to invoke when the notification fires.
+	///
+	/// The returned token is a retained pointer used to keep the handler
+	/// alive and to cancel the registration later. The handler runs on an
+	/// arbitrary thread, so hop to the main actor inside it if you touch
+	/// UI or published state.
 	@discardableResult
-	static func register(_ name: String, handler: @escaping @Sendable () -> Void)
-		-> UnsafeMutableRawPointer
-	{
+	static func register(
+		_ name: String,
+		prefix: String = Notifier.touchPrefix,
+		handler: @escaping @Sendable () -> Void
+	) -> UnsafeMutableRawPointer {
 		let fullName = prefix + name
 		let ctx = Unmanaged.passRetained(NotifyBox(handler)).toOpaque()
 
@@ -46,7 +78,10 @@ enum Notifier {
 		return ctx
 	}
 
-	/// Remove and release a registration. (Optional: process exit clears all.)
+	/// Remove and release a registration.
+	///
+	/// Pass the token returned by ``Notifier/register(_:handler:)``.
+	/// Optional: process exit clears all pending registrations anyway.
 	static func cancel(_ token: UnsafeMutableRawPointer) {
 		let center = CFNotificationCenterGetDarwinNotifyCenter()
 		CFNotificationCenterRemoveEveryObserver(center, token)
