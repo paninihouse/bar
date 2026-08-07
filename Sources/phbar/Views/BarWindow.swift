@@ -20,7 +20,12 @@ final class BarWindow: NSPanel {
 		isMovable = false
 		becomesKeyOnlyIfNeeded = true
 		level = .floating
-		collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
+		collectionBehavior = [
+			.canJoinAllSpaces,
+			.fullScreenAuxiliary,
+			.stationary,
+			.fullScreenNone,
+		]
 		animationBehavior = .none
 	}
 
