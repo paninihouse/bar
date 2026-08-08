@@ -1,7 +1,5 @@
 import AppKit
 
-// A non-activating panel: clicking it (e.g. a workspace cell) runs the action
-// without stealing focus from the app you're working in.
 final class BarWindow: NSPanel {
 	init(contentRect: NSRect) {
 		super.init(
