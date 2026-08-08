@@ -23,8 +23,8 @@ enum Config {
 	/// The color used for the bar background.
 	static let background: Color = .hex("#010408").opacity(0.825)
 
-	/// The color used to highlight a cell inside a block (see ``Cell``).
-	static let highlight: Color = .hex("#0f304a")
+	/// The colors used to highlight a cell at different levels (see ``Cell``).
+	static let highlights: [Color] = [.hex("#0f304a"), .hex("#1f689d")]
 
 	/// The blocks that make up the bar, listed in display order.
 	///
