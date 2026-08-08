@@ -14,17 +14,37 @@ enum Config {
 	/// The bar position on the screen.
 	static let position: Position = .top
 
+	// NOTE: Customizing font
+	//
+	// You can use system default fonts thanks to the standard SwiftUI
+	// methods and access properties. However, you can also use your
+	// preferred custom font.
+	//
+	// E.g: `.custom("Comic Code", fixedSize: 14)`
+	//
+	// You may want to use a patched Nerd Font (https://www.nerdfonts.com)
+	// so you can have icons in your bar. Alternatively, you can display
+	// SF Symbols by copy and pasting them as glyphs.
+
 	/// The font used for all text and icons in the bar.
-	static let font: Font = .custom("Comic Code", fixedSize: 14)
+	static let font: Font = .system(size: 14, weight: .regular, design: .monospaced)
+
+	// NOTE: Customizing colors
+	//
+	// You can use system default colors and the standard SwiftUI
+	// methods to define them. However, for convenience we added
+	// support for hex colors too (see ``HEX``).
+	//
+	// E.g: `.hex("#000000")`
 
 	/// The color used for texts and icons.
-	static let foreground: Color = .hex("#aed3f3")
+	static let foreground: Color = .hex("#FFFFFF")
 
 	/// The color used for the bar background.
-	static let background: Color = .hex("#010408").opacity(0.825)
+	static let background: Color = .hex("#000000").opacity(0.75)
 
 	/// The colors used to highlight a cell at different levels (see ``Cell``).
-	static let highlights: [Color] = [.hex("#0f304a"), .hex("#1f689d")]
+	static let highlights: [Color] = [.blue, .purple]
 
 	/// The blocks that make up the bar, listed in display order.
 	///
@@ -32,15 +52,14 @@ enum Config {
 	/// and runs a shell command, optionally on a repeating interval.
 	/// See ``Config-swift.enum/Block`` for the full configuration options.
 	static let blocks: [Block] = [
-		Block(name: "app", placement: .left, command: "echo ' 􀙅 Safari '"),
-		Block(
-			name: "memory", placement: .right, command: "~/.config/phbar/scripts/memory", interval: 10),
-		Block(
-			name: "clock", placement: .right, command: "~/.config/phbar/scripts/clock", interval: 1),
+		Block(name: "version", placement: .left,  command: "echo '&!1 phbar v1.0.0 '"),
+		Block(name: "ph",      placement: .left,  command: "echo ' by Panini House'"),
+		Block(name: "memory",  placement: .right, command: "echo \"􀟱 Hi $USER, welcome to phbar! | \""),
+		Block(name: "clock",   placement: .right, command: "echo \"􀐬 $(date '+%a %d, %H:%M:%S') \"", interval: 1),
 	]
 }
 
-// MARK: Support types
+// MARK: Types reference
 
 extension Config {
 	/// The bar position on the screen.
