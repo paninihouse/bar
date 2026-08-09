@@ -5,6 +5,9 @@ import PackageDescription
 let package = Package(
 	name: "phbar",
 	platforms: [.macOS(.v26)],
+	dependencies: [
+		.package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+	],
 	targets: [
 		.executableTarget(name: "phbar"),
 		.testTarget(name: "phbarTests", dependencies: ["phbar"]),
