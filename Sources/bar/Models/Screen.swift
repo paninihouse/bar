@@ -1,10 +1,6 @@
 import AppKit
+import Foundation
 
-/// Helpers for multi-screen geometry.
-///
-/// Maps a bar configuration (position, height) into concrete
-/// screen coordinates so the window can be placed correctly
-/// on each display.
 enum Screen {
 	/// Frame of the bar within a screen, in global display coordinates.
 	///
@@ -14,7 +10,7 @@ enum Screen {
 	///               of the screen.
 	///   - height: The bar height in points (see ``Config/height``).
 	///
-	/// - Returns: An ``NSRect`` in screen coordinates. The bar spans
+	/// - Returns: An NSRect in screen coordinates. The bar spans
 	///            the full width of the screen and is anchored at the top
 	///            or bottom edge.
 	static func barFrame(_ screen: NSScreen, position: Config.Position, height: CGFloat) -> NSRect {

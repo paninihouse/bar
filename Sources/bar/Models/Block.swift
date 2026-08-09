@@ -27,7 +27,7 @@ final class Block: ObservableObject, Identifiable {
 	/// The shell command to execute for producing the cells.
 	///
 	/// Can be an inline expression or a path to an executable
-	/// script. Inherits the environment of the phbar process.
+	/// script. Inherits the environment of the `bar` process.
 	let command: String
 
 	/// Refresh interval in seconds, or `nil` for a one-shot block.
@@ -101,7 +101,7 @@ final class Block: ObservableObject, Identifiable {
 
 extension Config.Block {
 	@MainActor
-	var resolved: phbar.Block {
+	var resolved: bar.Block {
 		.init(name: name, placement: placement, command: command, interval: interval)
 	}
 }

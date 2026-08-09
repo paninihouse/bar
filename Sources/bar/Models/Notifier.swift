@@ -20,12 +20,12 @@ private final class NotifyBox {
 /// notifyutil -p <prefix><name>
 /// ```
 ///
-/// Each category of events uses a different ``prefix``
+/// Each category of events uses a different `prefix`
 /// to avoid collisions. For example, block refresh
 /// notifications use ``touchPrefix``:
 ///
 /// ```
-/// notifyutil -p house.panini.phbar.touch.<name>
+/// notifyutil -p bar.touch.<name>
 /// ```
 ///
 /// > Note: `notify.h` isn't part of Swift's Darwin module,
@@ -37,9 +37,9 @@ private final class NotifyBox {
 enum Notifier {
 	/// Prefix for block refresh notifications.
 	///
-	/// Use `notifyutil -p house.panini.phbar.touch.<name>` to trigger
+	/// Use `notifyutil -p bar.touch.<name>` to trigger
 	/// a block update from the shell.
-	static let touchPrefix = "house.panini.phbar.touch."
+	static let touchPrefix = "bar.touch."
 
 	/// Register `handler` to fire whenever the notification is posted.
 	///
@@ -80,7 +80,7 @@ enum Notifier {
 
 	/// Remove and release a registration.
 	///
-	/// Pass the token returned by ``Notifier/register(_:handler:)``.
+	/// Pass the token returned by ``Notifier/register(_:prefix:handler:)``.
 	/// Optional: process exit clears all pending registrations anyway.
 	static func cancel(_ token: UnsafeMutableRawPointer) {
 		let center = CFNotificationCenterGetDarwinNotifyCenter()

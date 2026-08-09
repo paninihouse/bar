@@ -3,13 +3,12 @@ import SwiftUI
 /// The top-level configuration for the bar.
 ///
 /// Set appearance, define blocks, and choose the bar position here.
-/// This is the primary file a user edits to customise phbar.
+/// This is the primary file a user edits to customise *bar*.
 enum Config {
 	/// The bar height in points (pt).
 	///
-	/// Tip: Set this value to 30 to match the default macOS
-	/// menu bar height.
-	static let height: CGFloat = 30
+	/// > Tip: Set this value to 30 to match the default macOS menu bar height.
+	static let height: Double = 30
 
 	/// The bar position on the screen.
 	static let position: Position = .top
@@ -52,9 +51,9 @@ enum Config {
 	/// and runs a shell command, optionally on a repeating interval.
 	/// See ``Config-swift.enum/Block`` for the full configuration options.
 	static let blocks: [Block] = [
-		Block(name: "version", placement: .left,  command: "echo '&!1 phbar v1.0.0 '"),
+		Block(name: "version", placement: .left,  command: "echo '&!1 bar v1.0.0 '"),
 		Block(name: "ph",      placement: .left,  command: "echo ' by Panini House'"),
-		Block(name: "memory",  placement: .right, command: "echo \"􀟱 Hi $USER, welcome to phbar! | \""),
+		Block(name: "memory",  placement: .right, command: "echo \"􀟱 Hi $USER, welcome to bar! | \""),
 		Block(name: "clock",   placement: .right, command: "echo \"􀐬 $(date '+%a %d, %H:%M:%S') \"", interval: 1),
 	]
 }
@@ -74,7 +73,7 @@ extension Config {
 	/// A block defined in the configuration.
 	///
 	/// Represents one unit of the bar. Each block is a named command that
-	/// produces output on an optional timer. See ``phbar/Block`` for the
+	/// produces output on an optional timer. See ``bar/Block`` for the
 	/// runtime counterpart that manages execution and cell publishing.
 	struct Block: Sendable {
 		/// The block identifier used for manual updates.
@@ -83,10 +82,10 @@ extension Config {
 		/// interval. You might want instead to react to specific
 		/// events or "manually" update them.
 		/// In such cases, you can send a standard system
-		/// notification that tells phbar to trigger an update
+		/// notification that tells *bar* to trigger an update
 		/// for the block identified by the name.
 		///
-		/// E.g: `notifyutil -p house.panini.phbar.touch.<name>`
+		/// E.g: `notifyutil -p bar.touch.<name>`
 		///
 		/// Be aware that nothing stops you from having multiple
 		/// blocks with the same name. In such case, triggering
@@ -104,8 +103,8 @@ extension Config {
 		/// script somewhere on the system.
 		///
 		/// The command process will inherit the environment
-		/// of the process that executed phbar in the first place.
-		/// This means that running phbar from your regular shell
+		/// of the process that executed `bar` in the first place.
+		/// This means that running `bar` from your regular shell
 		/// or from launchctl might result in different behaviours.
 		/// Make sure to test both scenarios properly.
 		let command: String
