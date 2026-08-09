@@ -58,10 +58,14 @@ final class Block: ObservableObject, Identifiable {
 	}
 
 	/// Re-run the command and update the cells on the main actor.
-	func runScript() {
+	func runScript(env: [String: String] = [:]) {
 		let command = self.command
+
+		var env = env
+		env.updateValue(name, forKey: "BLOCK")
+
 		Task.detached(priority: .utility) { [weak self] in
-			let lines = Runner.run(command)
+			let lines = Runner.run(command, env: env)
 			await self?.apply(lines)
 		}
 	}
