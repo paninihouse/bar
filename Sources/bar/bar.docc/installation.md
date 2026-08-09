@@ -26,11 +26,11 @@ From within the *bar* directory, run the install target:
 make install
 ```
 
-> Tip: By default, the install target builds a release binary and copies it to `/usr/local/bin/bar`.
+> Tip: By default, the install target builds a release binary and copies it to `~/.local/bin/bar`.
 > You can override the install location by setting `PREFIX`:
 >
 > ```shell
-> make install PREFIX=~/.local/bin
+> make install PREFIX=/usr/local/bin
 > ```
 
 ### Without make

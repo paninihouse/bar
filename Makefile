@@ -1,4 +1,4 @@
-PREFIX ?= /usr/local/bin
+PREFIX ?= ~/.local/bin
 
 all: run
 
