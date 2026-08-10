@@ -14,25 +14,39 @@ If you specify the interval, the block will re-run the command with such frequen
 
 ## Topics
 
+### Before you start
+
+- <doc:how-it-works>
+
 ### Getting started
 
 - <doc:installation>
+- <doc:run-at-login>
+
+### Customisation
+
 - <doc:customisation>
+- <doc:patches>
 - ``Config``
 - ``HEX``
 
+### Bar
+
+- <doc:hide-show>
+
 ### Blocks
 
-- <doc:commands>
-- <doc:manual-updates>
+- <doc:command>
+- <doc:refresh>
+- <doc:highlighting>
+- <doc:gestures>
 - ``Block``
 - ``Cell``
+
+### Models
+
 - ``Runner``
 - ``Notifier``
-
-### Design
-
-- <doc:philosophy>
 
 ### Views
 
