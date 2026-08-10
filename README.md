@@ -1,18 +1,13 @@
 <h1 align="center">bar</h1>
 
 <p align="center">
-	<strong>Modular status bar for the Mac.</strong>
+	<strong>Modular status bar for the Mac.</strong><br>
+	<i>Minimal, elegant, customisable.</i>
 </p>
 
 <p align="center">
-	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="80%">
+	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="100%">
 </p>
-
----
-
-`bar` draws a lightweight status bar on every screen.
-Configure it — blocks, fonts, colors, highlights — directly in Swift source,
-then `make install` and you're done.
 
 ---
 
@@ -127,7 +122,7 @@ notifyutil -p bar.touch.<block-name>
 
 ### Highlighting
 
-Prefix a line with `&!<level>` to apply a background colour from the `highlights` array:
+Prefix a line with `&!<level>` to apply a background color from the `highlights` array:
 
 ```shell
 echo "&!1 workspace 1"    # highlighted with highlights[0]
