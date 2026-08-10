@@ -1,8 +1,10 @@
 # ``bar``
 
-Modular status bar for macOS written in Swift.
+Modular status bar for the Mac.
 
 ## Overview
+
+![bar](bar.png)
 
 *bar* draws a status bar on each screen connected at runtime.
 The bar can be configured to have a specific ``Config-swift.enum/height``, ``Config-swift.enum/position``, and ``Config-swift.enum/background`` color.

@@ -1,9 +1,9 @@
 # How it works
 
-How *bar* works and how it differs from most macOS programs.
+How *bar* works and how it differs from most Mac programs.
 
 *bar* design is heavily inspired by the suite of [*suckless* tools](https://suckless.org/) for Linux.
-These tools are vastly different from what you typically use on macOS.
+These tools are vastly different from what you typically use on the Mac.
 They do not have configuration files, extraneous features, or a plugin/extension system.
 Instead, they are focused on simplicity, frugality, and a DIY approach.
 
