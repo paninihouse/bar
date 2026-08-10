@@ -18,7 +18,7 @@
 - **No configuration files** — edit `Config.swift`, rebuild, done.
 - **No plugin/extension system** — the source _is_ your configuration.
 - **No pre-built binaries** — you build it, you own it.
-- **Tiny codebase** — the entire program is ~600 lines of Swift. Read it, understand it, make it yours.
+- **Tiny codebase** — the entire program is ~500 lines of Swift. Read it, understand it, make it yours.
 
 > This is not software you install, run, and forget about.
 > You're supposed to understand how it works, customise it, and ultimately give back enhancements to the community.
