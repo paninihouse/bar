@@ -1,0 +1,36 @@
+diff --git a/Sources/bar/Config.swift b/Sources/bar/Config.swift
+index 2d9859b..685bf93 100644
+--- a/Sources/bar/Config.swift
++++ b/Sources/bar/Config.swift
+@@ -28,6 +28,12 @@ enum Config {
+ 	/// The font used for all text and icons in the bar.
+ 	static let font: Font = .system(size: 14, weight: .regular, design: .monospaced)
+ 
++	/// The vertical offset that can be used to adjust font centering.
++	///
++	/// A negative value will move the text upward, while a positive
++	/// value will move it downward.
++	static let fontOffset: Double = -0.5
++
+ 	// NOTE: Customizing colors
+ 	//
+ 	// You can use system default colors and the standard SwiftUI
+diff --git a/Sources/bar/Views/CellView.swift b/Sources/bar/Views/CellView.swift
+index 6b39eb1..909299a 100644
+--- a/Sources/bar/Views/CellView.swift
++++ b/Sources/bar/Views/CellView.swift
+@@ -4,8 +4,11 @@ struct CellView: View {
+ 	var cell: Cell
+ 
+ 	var body: some View {
+-		Text(cell.rawValue)
+-			.frame(height: Config.height)
+-			.background(cell.background)
++		Group {
++			Text(cell.rawValue)
++				.transformEffect(.init(translationX: 0, y: Config.fontOffset))
++		}
++		.frame(height: Config.height)
++		.background(cell.background)
+ 	}
+ }
