@@ -33,6 +33,9 @@ make install
 > make install PREFIX=/usr/local/bin
 > ```
 
+> Tip: While iterating on the configuration, use `make run` instead.
+> It builds and runs the program in one step without copying the binary, which speeds up the edit-compare loop.
+
 ### Without make
 
 If you don't have `make`, build directly with the Swift Package Manager:

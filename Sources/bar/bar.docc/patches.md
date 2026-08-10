@@ -88,3 +88,7 @@ To publish, upload the patch somewhere publicly accessible (e.g., the *bar* GitH
 ### Appearance
 
 - <doc:patch-font-offset>
+
+### Functionality
+
+- <doc:patch-screen-hotplug>

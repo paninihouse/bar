@@ -34,4 +34,8 @@ echo "&!2 workspace 2"    # highlighted with Config.highlights[1]
 echo "workspace 3"        # no highlight
 ```
 
+> Important: The `&!<level>` notation is stripped before rendering, so only the text after it is displayed.
+> For example, `&!1 workspace 1` renders as `workspace 1` on a highlighted background.
+
 > Important: The highlight level is a positive integer that indexes into ``Config-swift.enum/highlights`` (1-based).
+> If the level exceeds the number of defined highlights, the cell is treated as unhighlighted.

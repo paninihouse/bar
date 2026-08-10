@@ -29,7 +29,7 @@ The way to install *bar* is simply to download or clone the repository on your s
 What if you need a specific feature that is not available?
 Well, you can build it or patch it yourself.
 
-*bar* aims to stay focused and minimal, so it can be read through and understood in roughly half an hour.
+*bar* aims to stay focused and minimal, so it can be read through and understood in roughly an hour.
 You're more than encouraged to apply <doc:patches> to extend the software, write your own features, and ultimately publish them for the entire community.
 
 This approach is far more powerful than a plugin/extension ecosystem because you're not limited to what we, as the main developers, decide you can customise or change.
