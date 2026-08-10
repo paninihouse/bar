@@ -1,14 +1,18 @@
 <h1 align="center">bar</h1>
 
 <p align="center">
-  <strong>Modular status bar for macOS, written in Swift.</strong>
+	<strong>Modular status bar for the Mac.</strong>
 </p>
 
 <p align="center">
-  <code>bar</code> draws a lightweight status bar on every screen.
-  Configure it — blocks, fonts, colors, highlights — directly in Swift source,
-  then <code>make install</code> and you're done.
+	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="80%">
 </p>
+
+---
+
+`bar` draws a lightweight status bar on every screen.
+Configure it — blocks, fonts, colors, highlights — directly in Swift source,
+then `make install` and you're done.
 
 ---
 
@@ -58,18 +62,18 @@ Create a launch agent so the bar starts when you log in:
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key>
-  <string>house.panini.bar</string>
-  <key>ProgramArguments</key>
-  <array><string>~/.local/bin/bar</string></array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>KeepAlive</key>
-  <true/>
-  <key>StandardOutPath</key>
-  <string>/tmp/bar/bar.log</string>
-  <key>StandardErrorPath</key>
-  <string>/tmp/bar/bar.err</string>
+	<key>Label</key>
+	<string>house.panini.bar</string>
+	<key>ProgramArguments</key>
+	<array><string>~/.local/bin/bar</string></array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>/tmp/bar/bar.log</string>
+	<key>StandardErrorPath</key>
+	<string>/tmp/bar/bar.err</string>
 </dict>
 </plist>
 ```
@@ -82,19 +86,19 @@ All configuration lives in `Sources/bar/Config.swift`:
 
 ```swift
 enum Config {
-    static let height: Double     = 30
-    static let position: Position = .top
+	static let height: Double     = 30
+	static let position: Position = .top
 
-    static let font: Font = .system(size: 14, weight: .regular, design: .monospaced)
+	static let font: Font = .system(size: 14, weight: .regular, design: .monospaced)
 
-    static let foreground: Color   = .hex("#FFFFFF")
-    static let background: Color   = .hex("#000000").opacity(0.75)
-    static let highlights: [Color] = [.blue, .purple]
+	static let foreground: Color   = .hex("#FFFFFF")
+	static let background: Color   = .hex("#000000").opacity(0.75)
+	static let highlights: [Color] = [.blue, .purple]
 
-    static let blocks: [Block] = [
-        Block(name: "workspaces", placement: .left,  command: "~/bin/workspaces"),
-        Block(name: "clock",      placement: .right, command: "date '+%a %d, %H:%M:%S'", interval: 1),
-    ]
+	static let blocks: [Block] = [
+		Block(name: "workspaces", placement: .left,  command: "~/bin/workspaces"),
+		Block(name: "clock",      placement: .right, command: "date '+%a %d, %H:%M:%S'", interval: 1),
+	]
 }
 ```
 
@@ -136,8 +140,8 @@ React to clicks and scrolls on any block. The block's command receives `BUTTON` 
 
 ```shell
 case $BUTTON in
-  (0) mpc toggle ;;
-  (1) mpc stop   ;;
+	(0) mpc toggle ;;
+	(1) mpc stop   ;;
 esac
 ```
 
