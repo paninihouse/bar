@@ -17,15 +17,7 @@ private final class NotifyBox {
 /// no client binary, using `notifyutil`:
 ///
 /// ```
-/// notifyutil -p <prefix><name>
-/// ```
-///
-/// Each category of events uses a different `prefix`
-/// to avoid collisions. For example, block refresh
-/// notifications use ``touchPrefix``:
-///
-/// ```
-/// notifyutil -p bar.touch.<name>
+/// notifyutil -p bar.touch.<block-name>
 /// ```
 ///
 /// > Note: `notify.h` isn't part of Swift's Darwin module,
@@ -35,18 +27,10 @@ private final class NotifyBox {
 /// > The callback fires on an arbitrary thread; handlers
 /// > must hop to the main actor themselves (see ``AppDelegate``).
 enum Notifier {
-	/// Prefix for block refresh notifications.
-	///
-	/// Use `notifyutil -p bar.touch.<name>` to trigger
-	/// a block update from the shell.
-	static let touchPrefix = "bar.touch."
-
 	/// Register `handler` to fire whenever the notification is posted.
 	///
 	/// - Parameters:
-	///   - name: The notification name suffix.
-	///   - prefix: The full notification name will be `prefix + name`.
-	///             Defaults to ``touchPrefix``.
+	///   - name: The notification name.
 	///   - handler: Closure to invoke when the notification fires.
 	///
 	/// The returned token is a retained pointer used to keep the handler
@@ -56,10 +40,8 @@ enum Notifier {
 	@discardableResult
 	static func register(
 		_ name: String,
-		prefix: String = Notifier.touchPrefix,
 		handler: @escaping @Sendable () -> Void
 	) -> UnsafeMutableRawPointer {
-		let fullName = prefix + name
 		let ctx = Unmanaged.passRetained(NotifyBox(handler)).toOpaque()
 
 		CFNotificationCenterAddObserver(
@@ -70,7 +52,7 @@ enum Notifier {
 				let box = Unmanaged<NotifyBox>.fromOpaque(observer).takeUnretainedValue()
 				box.handler()
 			},
-			fullName as CFString,
+			name as CFString,
 			nil,
 			.deliverImmediately
 		)
@@ -80,7 +62,7 @@ enum Notifier {
 
 	/// Remove and release a registration.
 	///
-	/// Pass the token returned by ``Notifier/register(_:prefix:handler:)``.
+	/// Pass the token returned by ``Notifier/register(_:handler:)``.
 	/// Optional: process exit clears all pending registrations anyway.
 	static func cancel(_ token: UnsafeMutableRawPointer) {
 		let center = CFNotificationCenterGetDarwinNotifyCenter()

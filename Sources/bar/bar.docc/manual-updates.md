@@ -10,10 +10,10 @@ This is done by posting a [Darwin notification](https://developer.apple.com/docu
 Use `notifyutil` (bundled with macOS) to post a notification:
 
 ```shell
-notifyutil -p bar.touch.<name>
+notifyutil -p bar.touch.<block-name>
 ```
 
-Replace `<name>` with the block's name (e.g. `clock`, `battery`).
+Replace `<block-name>` with the block's name (e.g. `clock`, `battery`).
 If multiple blocks share the same name, a single notification refreshes them all.
 
 ## Use cases
