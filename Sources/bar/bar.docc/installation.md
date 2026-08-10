@@ -76,7 +76,7 @@ launchctl load ~/Library/LaunchAgents/house.panini.bar.plist
 
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/local/bin/bar</string>
+		<string>~/.local/bin/bar</string>
 	</array>
 
 	<key>RunAtLoad</key>
