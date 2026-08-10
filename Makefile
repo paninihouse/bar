@@ -18,7 +18,4 @@ uninstall:
 clean:
 	rm -rf .build
 
-docs:
-	SWIFT_DOCC=1 swift package --disable-sandbox preview-documentation --target bar
-
-.PHONY: all run build install uninstall clean docs
+.PHONY: all run build install uninstall clean
