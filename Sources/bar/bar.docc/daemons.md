@@ -21,7 +21,7 @@ notify_post("bar.touch.<block-name>");
 The ``Notifier`` system in *bar* receives the notification and re-runs the corresponding block's command.
 The block itself stays stateless, it just reads and prints the current state whenever it is called.
 
-For example, the <doc:daemon-bar-volumed> daemon listens for CoreAudio volume change events and posts `bar.touch.volume`.
+For example, the <doc:daemon-volumed> daemon listens for CoreAudio volume change events and posts `bar.touch.volume`.
 The volume block in ``Config`` runs once per notification, prints the current volume, and the bar updates.
 
 ## How to install
@@ -56,27 +56,26 @@ The process is very similar to the one described in the <doc:run-at-login> artic
 ### Audio
 
 - <doc:daemon-volumed>
-<!-- - <doc:daemon-bar-micd> -->
 
-<!-- ### Display -->
-<!---->
-<!-- - <doc:daemon-bar-brightnessd> -->
-<!-- - <doc:daemon-bar-spaced> -->
-<!---->
-<!-- ### Power -->
-<!---->
-<!-- - <doc:daemon-bar-batteryd> -->
-<!---->
-<!-- ### Network -->
-<!---->
-<!-- - <doc:daemon-bar-networkd> -->
+### Display
+
+- <doc:daemon-brightnessd>
+- <doc:daemon-spaced>
+
+### Power
+
+- <doc:daemon-batteryd>
+
+### Network
+
+- <doc:daemon-networkd>
 
 ### Media
 
+- <doc:daemon-nowplayingd>
 - <doc:daemon-mpd>
-<!-- - <doc:daemon-bar-nowplayingd> -->
 
-<!-- ### System -->
-<!---->
-<!-- - <doc:daemon-bar-focusd> -->
-<!-- - <doc:daemon-bar-devicesd> -->
+### System
+
+- <doc:daemon-devicesd>
+- <doc:daemon-focusd>

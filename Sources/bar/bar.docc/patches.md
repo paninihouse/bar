@@ -1,6 +1,6 @@
 # Patches
 
-Extend the program with additional functionality.
+Extend the program by applying git diffs.
 
 A *patch* is a set of source code changes that add a specific feature to a program.
 Unlike plugins or extensions, patches modify the program directly — you edit the source, rebuild, and the new functionality becomes part of the binary.
