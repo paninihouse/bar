@@ -1,0 +1,40 @@
+diff --git a/Sources/bar/Config.swift b/Sources/bar/Config.swift
+index c2299fc..425ac32 100644
+--- a/Sources/bar/Config.swift
++++ b/Sources/bar/Config.swift
+@@ -42,6 +42,9 @@ enum Config {
+ 	/// The color used for the bar background.
+ 	static let background: Color = .hex("#000000").opacity(0.75)
+ 
++	/// The blur amount used for the bar background.
++	static let backgroundBlur: Double = 10
++
+ 	/// The colors used to highlight a cell at different levels (see ``Cell``).
+ 	static let highlights: [Color] = [.blue, .purple]
+ 
+diff --git a/Sources/bar/Views/AppDelegate.swift b/Sources/bar/Views/AppDelegate.swift
+index cefdfc0..a9bdcb1 100644
+--- a/Sources/bar/Views/AppDelegate.swift
++++ b/Sources/bar/Views/AppDelegate.swift
+@@ -11,7 +11,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
+ 		for screen in NSScreen.screens {
+ 			let frame = Screen.barFrame(screen, position: Config.position, height: Config.height)
+ 			let window = BarWindow(contentRect: frame)
+-			window.contentView = NSHostingView(rootView: BarView(blocks: blocks))
++
++			// Create the background blur view
++			let backgroundBlurView = BackgroundBlurView()
++			backgroundBlurView.autoresizingMask = [.width, .height]
++			backgroundBlurView.frame = window.contentView?.bounds ?? .zero
++
++			// Create the bar view as a child of the background blur view
++			let barView = NSHostingView(rootView: BarView(blocks: blocks))
++			barView.autoresizingMask = [.width, .height]
++			barView.frame = window.contentView?.bounds ?? .zero
++			backgroundBlurView.addSubview(barView)
++
++			// Present the window with the background blur view as content view
++			window.contentView = backgroundBlurView
+ 			window.orderFrontRegardless()
+ 			windows.append(window)
+ 		}
