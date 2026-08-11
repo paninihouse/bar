@@ -9,16 +9,16 @@
 	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="100%">
 </p>
 
-All the status bar we tried felt wrong in a way or another, so we decided to make our own.
+All the status bars we tried felt wrong in one way or another, so we decided to make our own.
 Here is what you should know about *bar* before you start:
 
 - **Just different** — *bar* doesn't work like most other bars or programs for what matters.
-You configure it by changing directly the source code and messing around with Swift files.
+You configure it by directly changing the source code and tinkering with Swift files.
 At the end, everyone will have their own *bar*.
 - **Dead simple** — *bar* always looks for simplicity, both in usage and in the source code.
-It just do the very basics very well, everything else is left out.
-It doesn't even include gaps between blocks...
-- **Easy to understand** — *bar* codebase is just ~500 lines of Swift, wrapped in a ton of comments.
+It just does the very basics very well; everything else is left out.
+It doesn't even include gaps between blocks.
+- **Easy to understand** — *bar*'s codebase is just ~500 lines of Swift, wrapped in a ton of comments.
 Everything is explained so you can truly own the codebase and customise it as you see fit.
 
 > This is not software you install, run, and forget about.
@@ -34,6 +34,7 @@ Everything is explained so you can truly own the codebase and customise it as yo
 
 - **macOS 26** or later
 - **Swift 6.3** (bundled with Xcode or installed from [swift.org](https://swift.org))
+- **No other dependencies** — `bar` only needs Swift and the macOS SDK.
 
 ### Install
 
@@ -117,7 +118,7 @@ echo "first cell"
 echo "second cell"
 ```
 
-Blocks can refresh on an interval or on demand via a Darwin notification:
+Blocks can refresh on an interval or on demand via a Darwin notification (using `notifyutil`, which ships with macOS):
 
 ```shell
 notifyutil -p bar.touch.<block-name>
