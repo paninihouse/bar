@@ -18,7 +18,7 @@ The file contains a diff of the changes needed to add a specific feature.
 For example, to apply a patch from the *bar* collection:
 
 ```shell
-curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/bar-font_offset-20260810-11d813c.patch | patch -p1
+curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/patch-font_offset-20260810-11d813c.patch | patch -p1
 ```
 
 After applying the patch, rebuild the program:
@@ -63,13 +63,13 @@ This modular approach lets the community mix and match features without duplicat
 When publishing a patch, use a descriptive file name that follows the convention:
 
 ```
-bar-<feature_name>-<date>-<commit>.patch
+patch-<feature_name>-<date>-<commit>.patch
 ```
 
 For example:
 
 ```
-bar-font_offset-20260810-11d813c.patch
+patch-font_offset-20260810-11d813c.patch
 ```
 
 The date pinpoints which version of the code the patch was made against, and the commit hash makes it easy to look up the exact state of the repository at that point.

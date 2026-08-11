@@ -174,12 +174,12 @@ Browse the available patches in the [patches directory](patches/).
 | Patch | Description |
 |---|---|
 | [font-offset](patches/bar-font_offset-20260810-11d813c.patch) | Adjust vertical text centering |
-| [screen-hotplug](patches/bar-screen_hotplug-20260810-f6805c9.patch) | Auto-rebuild windows when displays are added/removed |
+| [screen-hotplug](patches/patch-screen_hotplug-20260810-f6805c9.patch) | Auto-rebuild windows when displays are added/removed |
 
 To apply a patch:
 
 ```shell
-curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/bar-screen_hotplug-20260810-f6805c9.patch | patch -p1
+curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/patch-screen_hotplug-20260810-f6805c9.patch | patch -p1
 make install
 ```
 
