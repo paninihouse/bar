@@ -12,7 +12,7 @@ The block content is preserved during the rebuild — there is no need to re-run
 ## Installation
 
 ```shell
-curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/bar-screen_hotplug-20260810-f6805c9.patch | patch -p1
+curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/patch-screen_hotplug-20260810-f6805c9.patch | patch -p1
 ```
 
 After applying, rebuild the program:
