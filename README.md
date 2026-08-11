@@ -9,19 +9,22 @@
 	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="100%">
 </p>
 
----
+All the status bar we tried felt wrong in a way or another, so we decided to make our own.
+Here is what you should know about *bar* before you start:
 
-## Philosophy
-
-`bar` is inspired by the [suckless tools](https://suckless.org/) philosophy:
-
-- **No configuration files** — edit `Config.swift`, rebuild, done.
-- **No plugin/extension system** — the source _is_ your configuration.
-- **No pre-built binaries** — you build it, you own it.
-- **Tiny codebase** — the entire program is ~500 lines of Swift. Read it, understand it, make it yours.
+- **Just different** — *bar* doesn't work like most other bars or programs for what matters.
+You configure it by changing directly the source code and messing around with Swift files.
+At the end, everyone will have their own *bar*.
+- **Dead simple** — *bar* always looks for simplicity, both in usage and in the source code.
+It just do the very basics very well, everything else is left out.
+It doesn't even include gaps between blocks...
+- **Easy to understand** — *bar* codebase is just ~500 lines of Swift, wrapped in a ton of comments.
+Everything is explained so you can truly own the codebase and customise it as you see fit.
 
 > This is not software you install, run, and forget about.
 > You're supposed to understand how it works, customise it, and ultimately give back enhancements to the community.
+
+`bar` was inspired by some great [suckless tools](https://suckless.org/) like [dwmblocks](https://github.com/LukeSmithxyz/dwmblocks).
 
 ---
 
@@ -155,38 +158,22 @@ A bar is created for every connected display at launch. All bars share the same 
 
 ## Documentation
 
-Full documentation is available as a [DocC archive](https://github.com/paninihouse/bar) or by running:
-
-```shell
-make docs
-```
-
-It covers installation, customisation, blocks, highlighting, gestures, refresh, patches, and more.
+Full documentation is available at [https://docs.panini.house/bar](https://docs.panini.house/bar).
+It covers installation, customisation, blocks, highlighting, gestures, refresh, patches, daemons and more.
 
 ---
 
 ## Patches
 
-Following the suckless tradition, `bar` is extended via **patches** — minimal, focused diffs that you apply to the source and rebuild.
+If you find `bar` too limited, you can extend it via **patches**.
+They are minimal, focused diffs that you apply to the source and rebuild.
 
-Browse the available patches in the [patches directory](patches/).
-
-| Patch | Description |
-|---|---|
-| [font-offset](patches/bar-font_offset-20260810-11d813c.patch) | Adjust vertical text centering |
-| [screen-hotplug](patches/patch-screen_hotplug-20260810-f6805c9.patch) | Auto-rebuild windows when displays are added/removed |
-
-To apply a patch:
-
-```shell
-curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/patch-screen_hotplug-20260810-f6805c9.patch | patch -p1
-make install
-```
-
-> Want to share your own patch? Create a focused diff (`git diff > my-feature.patch`), upload it, and open a PR linking it in the docs.
+Browse the available patches in the [official documentation](https://docs.panini.house/bar/documentation/bar/patches).
 
 ---
 
-## License
+## Daemons
 
-[MIT](LICENSE)
+Even if not directly part of `bar`, the repository contains a few daemons that you can use to refresh blocks on specific system events.
+
+Browse the available daemons in the [official documentation](https://docs.panini.house/bar/documentation/bar/daemons).
