@@ -29,6 +29,7 @@ If you specify the interval, the block will re-run the command with such frequen
 
 - <doc:customisation>
 - <doc:patches>
+- <doc:daemons>
 - ``Config``
 - ``HEX``
 

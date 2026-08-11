@@ -1,4 +1,4 @@
-// bar-volumed — volume daemon for bar (no permissions needed)
+// volumed — volume daemon for bar
 //
 // Uses CoreAudio to listen for system volume/mute changes instead of
 // a CGEvent tap, so no Accessibility permission is required.
@@ -6,22 +6,8 @@
 // When the volume changes, it posts a Darwin notification that tells
 // bar to refresh the "volume" block.
 //
-// ── Setup ──
-//
-// 1. Add a volume block to Config (no interval needed):
-//      Block(name: "volume", placement: .right, command: "<your-volume-script>")
-//
-// 2. Compile and run the daemon:
-//      cc -o ~/.local/bin/bar-volumed daemons/volume/volumed.c -framework CoreAudio
-//      ~/.local/bin/bar-volumed &
-//
-// 3. Or install as a luanch agent:
-//      cp daemons/volume/house.panini.bar.volumed.plist ~/Library/LaunchAgents/
-//      # Make sure to update the ProgramArguments with the correct path to the program
-//      launchctl load ~/Library/LaunchAgents/house.panini.bar.volumed.plist
-//
 // Compile:
-//   cc -o bar-volumed daemons/volume/volumed.c -framework CoreAudio
+//   cc -o bar-volumed daemons/volumed.c -framework CoreAudio
 
 #include <CoreAudio/CoreAudio.h>
 #include <notify.h>
@@ -46,7 +32,7 @@ static OSStatus volume_changed(
 	void *context
 ) {
 	(void)object; (void)num_addresses; (void)addresses; (void)context;
-	notify_post("bar.touch.volume");
+	notify_post("bar.touch.<block-name>");
 	return noErr;
 }
 
