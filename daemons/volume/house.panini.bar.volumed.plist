@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>house.panini.bar.volumed</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/your-username/.local/bin/bar-volumed</string>
+	</array>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>KeepAlive</key>
+	<true/>
+
+	<key>StandardOutPath</key>
+	<string>/tmp/bar/volumed.log</string>
+
+	<key>StandardErrorPath</key>
+	<string>/tmp/bar/volumed.log</string>
+</dict>
+</plist>
