@@ -18,7 +18,7 @@ enum Config {
 ## Installation
 
 ```shell
-curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/bar-font_offset-20260810-11d813c.patch | patch -p1
+curl -sL https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/patches/patch-font_offset-20260810-11d813c.patch | patch -p1
 ```
 
 After applying, rebuild the program:
