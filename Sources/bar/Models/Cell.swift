@@ -1,4 +1,3 @@
-import Foundation
 import RegexBuilder
 import SwiftUI
 
@@ -30,7 +29,11 @@ import SwiftUI
 /// window manager workspaces and which one is active.
 struct Cell: RawRepresentable, Identifiable {
 	/// Stable identity for SwiftUI diffing.
-	let id = UUID()
+	///
+	/// The id is constructed by the rawValue + highlight
+	/// so that SwiftUI redraws the cell only on content
+	/// change and not every time the cell is computed.
+	let id: String
 
 	/// The represented text content.
 	let rawValue: String
@@ -61,6 +64,7 @@ struct Cell: RawRepresentable, Identifiable {
 		guard let match = rawValue.firstMatch(of: pattern) else {
 			self.rawValue = rawValue
 			self.highlight = 0
+			self.id = "\(rawValue):0"
 			return
 		}
 
@@ -71,5 +75,6 @@ struct Cell: RawRepresentable, Identifiable {
 		}
 
 		self.rawValue = String(match.output.2)
+		self.id = "\(self.rawValue):\(self.highlight)"
 	}
 }
