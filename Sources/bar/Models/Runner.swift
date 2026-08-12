@@ -3,7 +3,14 @@ import Foundation
 /// Runs a shell command and returns its stdout as separate lines.
 ///
 /// Blocking — always call from a background context (e.g. `Task.detached`).
+/// A 30-second timeout prevents hanging processes from consuming
+/// cooperative pool threads indefinitely.
 enum Runner {
+	/// The maximum time (in seconds) a command is allowed to run before
+	/// being killed. This prevents a single hung process from consuming
+	/// a cooperative thread indefinitely.
+	private static let timeout: Double = 30
+
 	/// Run a command and returns stdout as an array of separated lines.
 	/// - Parameters:
 	///   - command: The command to run.
@@ -29,9 +36,20 @@ enum Runner {
 			return ["ERROR"]
 		}
 
+		// Schedule a kill after the timeout expires.
+		// If the process finishes before that, the timer is cancelled.
+		let timer = DispatchSource.makeTimerSource()
+		timer.schedule(deadline: .now() + timeout)
+		timer.setEventHandler { [weak process] in
+			process?.terminate()
+		}
+		timer.resume()
+
 		let data = stdout.fileHandleForReading.readDataToEndOfFile()
 		let errData = stderr.fileHandleForReading.readDataToEndOfFile()
 		process.waitUntilExit()
+
+		timer.cancel()
 
 		guard process.terminationStatus == 0 else {
 			write(errData, to: .standardError)
