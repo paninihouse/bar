@@ -9,6 +9,13 @@
 	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="100%">
 </p>
 
+<p align="center">
+	<a href="https://github.com/paninihouse/bar/blob/master/LICENSE"><img src="https://img.shields.io/github/license/paninihouse/bar.svg" alt="GitHub license"></a>
+	<img src="https://img.shields.io/badge/platform-macOS-green.svg" alt="Platform">
+	<a href="https://panini.house"><img src="https://img.shields.io/badge/maintainer-Panini%20House-blue" alt="Maintainer"></a>
+	<a href="https://docs.panini.house/bar"><img src="https://img.shields.io/badge/documentation-bar-blue" alt="Documentation"></a>
+</p>
+
 All the status bars we tried felt wrong in one way or another, so we decided to make our own.
 Here is what you should know about *bar* before you start:
 
