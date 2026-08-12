@@ -44,6 +44,7 @@ If you specify the interval, the block will re-run the command with such frequen
 - <doc:refresh>
 - <doc:highlighting>
 - <doc:gestures>
+- <doc:examples>
 - ``Block``
 - ``Cell``
 
