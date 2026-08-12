@@ -38,19 +38,8 @@ struct Cell: RawRepresentable, Identifiable {
 	/// The represented text content.
 	let rawValue: String
 
-	/// The highlight level of the cell.
-	let highlight: Int
-
-	/// The background color derived from the highlight level.
-	///
-	/// Returns the `Config.highlights` color at the same index
-	/// if present, otherwise `.clear` so the underlying bar
-	/// background shows through.
-	var background: Color {
-		guard highlight != 0 && highlight <= Config.highlights.count else { return .clear }
-
-		return Config.highlights[highlight - 1]
-	}
+	/// The background color of the cell derived from the highlight level.
+	var background: Color
 
 	init(rawValue: String) {
 		let pattern = Regex {
@@ -63,18 +52,24 @@ struct Cell: RawRepresentable, Identifiable {
 
 		guard let match = rawValue.firstMatch(of: pattern) else {
 			self.rawValue = rawValue
-			self.highlight = 0
+			self.background = .clear
 			self.id = "\(rawValue):0"
 			return
 		}
 
-		if let rawHighlight = match.output.1, let highlight = Int(String(rawHighlight)) {
-			self.highlight = highlight
-		} else {
-			self.highlight = 0
+		guard let rawHighlight = match.output.1,
+			let highlight = Int(String(rawHighlight)),
+			highlight > 0,
+			highlight <= Config.highlights.count
+		else {
+			self.rawValue = String(match.output.2)
+			self.background = .clear
+			self.id = "\(self.rawValue):0"
+			return
 		}
 
 		self.rawValue = String(match.output.2)
-		self.id = "\(self.rawValue):\(self.highlight)"
+		self.background = Config.highlights[highlight - 1]
+		self.id = "\(self.rawValue):\(highlight)"
 	}
 }
