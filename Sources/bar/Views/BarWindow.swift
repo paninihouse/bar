@@ -14,9 +14,9 @@ final class BarWindow: NSPanel {
 		becomesKeyOnlyIfNeeded = true
 		collectionBehavior = [
 			.canJoinAllSpaces,
-			.fullScreenAuxiliary,
 			.fullScreenNone,
 			.stationary,
+			.transient,
 		]
 		hasShadow = false
 		hidesOnDeactivate = false
