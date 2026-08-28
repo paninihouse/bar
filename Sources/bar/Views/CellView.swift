@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CellView: View {
-	var cell: Cell
+	let cell: Cell
 
 	var body: some View {
 		Text(cell.rawValue)
