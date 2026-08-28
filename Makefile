@@ -8,7 +8,7 @@ build: .build/release/bar
 
 .PHONY: run
 run:
-	swift run menu -c debug
+	swift run bar -c debug
 
 .PHONY: clean
 clean:
