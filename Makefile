@@ -6,6 +6,10 @@ build: .build/release/bar
 .build/release/bar:
 	swift build -c release
 
+.PHONY: run
+run:
+	swift run menu -c debug
+
 .PHONY: clean
 clean:
 	@rm -rf .build .docc-build .docs
