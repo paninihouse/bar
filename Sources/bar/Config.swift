@@ -6,8 +6,6 @@ import SwiftUI
 /// This is the primary file a user edits to customise *bar*.
 enum Config {
 	/// The bar height in points (pt).
-	///
-	/// > Tip: Set this value to 30 to match the default Mac menu bar height.
 	static let height: Double = 30
 
 	/// The bar position on the screen.

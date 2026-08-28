@@ -27,6 +27,14 @@ final class BarWindow: NSPanel {
 		level = .floating
 	}
 
+	/// By default AppKit clamps the window frame so it never overlaps the
+	/// menu bar (or the notch on MacBook displays), pushing the bar below
+	/// the notch. `bar` must sit flush with the top edge of the screen
+	/// instead, so we opt out of the constraint and keep the frame as-is.
+	override func constrainFrameRect(_ frameRect: NSRect, to screen: NSScreen?) -> NSRect {
+		frameRect
+	}
+
 	override var canBecomeMain: Bool { false }
 	override var canBecomeKey: Bool { true }
 }
