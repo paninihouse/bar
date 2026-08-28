@@ -25,8 +25,7 @@ The way to install *bar* is simply to download or clone the repository on your s
 
 ## How to extend the functionality
 
-*bar* already does a lot out of the box, but it is deliberately more limited compared to other solutions like [SketchyBar](https://felixkratz.github.io/SketchyBar/).
-What if you need a specific feature that is not available?
+*bar* already works very well out of the box, but what if you need a specific feature that is not available?
 Well, you can build it or patch it yourself.
 
 *bar* aims to stay focused and minimal, so it can be read through and understood in roughly an hour.

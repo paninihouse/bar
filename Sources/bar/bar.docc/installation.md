@@ -42,5 +42,5 @@ If you don't have `make`, build directly with the Swift Package Manager:
 
 ```shell
 swift build -c release
-cp .build/release/bar /usr/local/bin/
+cp .build/release/bar ~/.local/bin/
 ```

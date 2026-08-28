@@ -43,8 +43,6 @@ For example:
 git diff > my-awesome-feature.patch
 ```
 
-If you want to submit the patch to the community, upload it somewhere publicly accessible (e.g., a GitHub repo or a personal website) and link it in the patch documentation.
-
 > Important: A good patch is focused on a single feature and does not include unrelated changes.
 > This makes it easier for others to review and apply only what they need.
 
