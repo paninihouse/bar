@@ -7,6 +7,11 @@ A script that prints the active workspaces.
 ```shell
 #!/bin/zsh
 
+# Focus the clicked workspace
+case $BUTTON in
+	(0) yabai -m space --focus $(echo $CELL | xargs) ;;
+esac
+
 # Get all available workspaces
 workspaces=()
 while IFS= read -r line; do
@@ -45,6 +50,11 @@ yabai -m signal --add event=space_changed action='notifyutil -p bar.touch.spaces
 
 ```shell
 #!/bin/zsh
+
+# Focus the clicked workspace
+case $BUTTON in
+	(0) aerospace workspace $(echo $CELL | xargs) ;;
+esac
 
 # Get all available workspaces
 workspaces=()
