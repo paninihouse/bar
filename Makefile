@@ -1,62 +1,28 @@
-PREFIX ?= $(HOME)/.local/bin
+PREFIX ?= $(HOME)/.local
 
-# Auto-detect docc binary: prefer standalone, fall back to xcrun
-DOCC := $(shell which docc 2>/dev/null || echo "xcrun docc")
+.PHONY: build
+build: .build/release/bar
 
-# Derive the build triple from the bin path (e.g., arm64-apple-macosx)
-BUILD_DIR := $(shell swift build -c debug --show-bin-path 2>/dev/null)
-TRIPLE := $(notdir $(patsubst %/,%,$(dir $(BUILD_DIR))))
-MODULE_DIR := .build/$(TRIPLE)/debug/Modules
-SYMBOL_GRAPH_DIR := .build/$(TRIPLE)/symbolgraph
-
-.DEFAULT_GOAL := all
-
-all: run
-
-run:
-	swift run -c debug
-
-build:
-	swift build -c debug
-
-release:
+.build/release/bar:
 	swift build -c release
 
-install: release
-	install -d $(PREFIX)
-	install ".build/release/bar" "$(PREFIX)/bar"
-
-uninstall:
-	rm -f "$(PREFIX)/bar"
-
+.PHONY: clean
 clean:
-	rm -rf .build .docc-build docs
+	@rm -rf .build .docc-build .docs
 
-# Build the project and generate symbol graphs (prerequisite for docc targets)
-# Uses -minimum-access-level internal to capture doc-commented types even when they aren't public
-symbol-graphs: build
-	mkdir -p $(SYMBOL_GRAPH_DIR)
-	xcrun swift-symbolgraph-extract \
-		-module-name bar \
-		-target $(TRIPLE)26.0 \
-		-sdk $(shell xcrun --show-sdk-path 2>/dev/null) \
-		-minimum-access-level internal \
-		-I $(MODULE_DIR) \
-		-output-dir $(SYMBOL_GRAPH_DIR)
+.PHONY: install
+install: build
+	@install -d $(PREFIX)/bin/
+	@install -Dm755 .build/release/bar $(PREFIX)/bin/
 
-preview-docs: symbol-graphs
-	$(DOCC) preview Sources/bar/bar.docc \
-		--additional-symbol-graph-dir $(SYMBOL_GRAPH_DIR) \
-		--output-dir .docc-build
+.PHONY: uninstall
+uninstall:
+	@rm -f $(PREFIX)/bin/bar
 
-generate-docs: symbol-graphs
-	$(DOCC) convert Sources/bar/bar.docc \
-		--additional-symbol-graph-dir $(SYMBOL_GRAPH_DIR) \
-		--transform-for-static-hosting \
-		--hosting-base-path bar \
-		--output-path ./docs \
-		--source-service github \
-		--source-service-base-url https://github.com/paninihouse/bar/blob/master \
-		--checkout-path ~/Developer/paninihouse/tools/bar/
+.PHONY: docs
+docs: .build/release/bar
+	@$(MAKE) -C Sources/bar/bar.docc build
 
-.PHONY: all run build release install uninstall clean symbol-graphs preview-docs generate-docs
+.PHONY: docs-preview
+docs-preview: .build/release/bar
+	@$(MAKE) -C Sources/bar/bar.docc preview
