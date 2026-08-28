@@ -4,7 +4,6 @@ A few examples you can use as starting point for your commands.
 
 ## Topics
 
-- <doc:example-aerospace>
 - <doc:example-clock>
 - <doc:example-cpu>
 - <doc:example-focused-app>
@@ -13,3 +12,4 @@ A few examples you can use as starting point for your commands.
 - <doc:example-memory>
 - <doc:example-mpd>
 - <doc:example-volume>
+- <doc:example-workspaces>
