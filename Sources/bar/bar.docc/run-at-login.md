@@ -3,14 +3,39 @@
 How to start the program automatically at login.
 
 It is fine to run `bar` manually while you're editing and customising the source code.
-Although, as soon as you're happy with your build is a good idea to create a launch agent that can start the program for you.
+Although, as soon as you're happy with your build is a good idea to integrate `bar` with your window manager or create a launch agent that can start the program for you.
 
-## Create the agent
+## Using yabai
 
+If you are using [yabai](https://github.com/asmvik/yabai), add this line **at the very end** of your `yabairc` to start `bar` alongside the window manager:
+
+```sh
+# ~/.config/yabai/yabairc
+
+killall bar 2>/dev/null; bar &
+```
+
+## Using AeroSpace
+
+If you are using [AeroSpace](https://github.com/nikitabobko/AeroSpace), add an **after startup command** to start `bar` alongside the window manager:
+
+```toml
+# ~/.config/aerospace/aerospace.toml
+
+after-startup-command = [
+  "exec-and-forget bash -c 'killall bar 2>/dev/null; bar &'"
+]
+```
+
+## Using a launch agent
+
+If you want to run `bar` independently from a window manager, you can create a launch agent that runs it at login.
 Copy this code in a `plist` file inside the `~/Library/LaunchAgents/` directory.
 
 > Tip: It is best practice to use [reverse domain name notation](https://en.wikipedia.org/wiki/Reverse_domain_name_notation) for the filename.
 E.g: `house.panini.bar.plist`
+
+> Important: Replace the two `[USER]` placeholders with your actual username.
 
 ```plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -22,7 +47,7 @@ E.g: `house.panini.bar.plist`
 
 	<key>ProgramArguments</key>
 	<array>
-		<string>[EXECUTABLE_PATH]</string>
+		<string>/Users/[USER]/.local/bin/bar</string>
 	</array>
 
 	<key>RunAtLoad</key>
@@ -32,22 +57,15 @@ E.g: `house.panini.bar.plist`
 	<true/>
 
 	<key>StandardOutPath</key>
-	<string>/tmp/bar_[USER].out.log</string>
+	<string>/Users/[USER]/.local/state/bar/bar.out.log</string>
 
 	<key>StandardErrorPath</key>
-	<string>/tmp/bar_[USER].err.log</string>
+	<string>/Users/[USER]/.local/state/bar/bar.err.log</string>
 </dict>
 </plist>
 ```
 
-Make the two required edits:
-
-1. Replace `[EXECUTABLE_PATH]` with a path to the `bar` executable.
-If you didn't specify a different `PREFIX` in the <doc:installation#Build> phase, this should be `~/.local/bin/bar`.
-
-2. Replace the two `[USER]` placeholders with your actual username.
-
-## Activate the agent
+### Activate the agent
 
 You can than register the launch agent like so:
 
