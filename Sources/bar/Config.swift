@@ -37,13 +37,13 @@ enum Config {
 	// E.g: `.hex("#000000")`
 
 	/// The color used for texts and icons.
-	static let foreground: Color = .hex("#FFFFFF")
+	static let foreground: Color = .hex("#AED3F3")
 
 	/// The color used for the bar background.
-	static let background: Color = .hex("#000000").opacity(0.75)
+	static let background: Color = .hex("#010408").opacity(0.825)
 
 	/// The colors used to highlight a cell at different levels (see ``Cell``).
-	static let highlights: [Color] = [.blue, .purple]
+	static let highlights: [Color] = [.hex("#0F304A"), .hex("#1F689D")]
 
 	/// The blocks that make up the bar, listed in display order.
 	///
@@ -51,7 +51,7 @@ enum Config {
 	/// and runs a shell command, optionally on a repeating interval.
 	/// See ``Config-swift.enum/Block`` for the full configuration options.
 	static let blocks: [Block] = [
-		Block(name: "version", placement: .left,  command: "echo '&!1 bar v1.0.0 '"),
+		Block(name: "version", placement: .left,  command: "echo '&!1 bar '"),
 		Block(name: "ph",      placement: .left,  command: "echo ' by Panini House'"),
 		Block(name: "memory",  placement: .right, command: "echo \"􀟱 Hi $USER, welcome to bar! | \""),
 		Block(name: "clock",   placement: .right, command: "echo \"􀐬 $(date '+%a %d, %H:%M:%S') \"", interval: 1),
