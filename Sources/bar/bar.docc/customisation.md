@@ -13,9 +13,9 @@ enum Config {
 
 	static let font: Font = .custom("My Awesome Font", fixedSize: 14)
 
-	static let foreground: Color   = .hex("#FFFFFF")
-	static let background: Color   = .hex("#000000").opacity(0.75)
-	static let highlights: [Color] = [.blue, .purple]
+	static let foreground: Color   = .hex("#AED3F3")
+	static let background: Color   = .hex("#010408").opacity(0.825)
+	static let highlights: [Color] = [.hex("#0F304A"), .hex("#1F689D")]
 
 	static let blocks: [Block] = [
 		Block(name: "workspaces", placement: .left,  command: "~/scripts/workspaces"),
