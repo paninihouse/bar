@@ -34,8 +34,7 @@ make install
 Creating a patch is straightforward if you already made the changes in your local copy:
 
 1. Make sure your working directory is a git repository.
-2. Stage all the changes you want to include in the patch.
-3. Run `git diff` to generate the patch file.
+2. Run `git diff` to generate the patch file.
 
 For example:
 
