@@ -1,9 +1,7 @@
 PREFIX ?= $(HOME)/.local
 
 .PHONY: build
-build: .build/release/bar
-
-.build/release/bar:
+build:
 	swift build -c release
 
 .PHONY: run
