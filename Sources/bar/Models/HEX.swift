@@ -14,7 +14,9 @@ import SwiftUI
 ///
 /// Single-digit components are expanded by repeating the digit; for example,
 /// `#3aF` is read as `#33AAFF`. When present, the trailing digits encode alpha
-/// (opacity); otherwise opacity defaults to `1`.
+/// (opacity); otherwise opacity defaults to `1`. Surrounding whitespace is
+/// trimmed during conversion. Unsupported lengths resolve to opaque black;
+/// characters are not fully validated, so use one of the formats above.
 struct HEX {
 	/// The raw hex code, exactly as supplied. It is not validated or normalized;
 	/// parsing is performed lazily by `Color.hex(_:)`.
@@ -40,8 +42,11 @@ extension SwiftUI.Color {
 	/// Supported formats (the leading `#` is optional): `#RGB`, `#RGBA`,
 	/// `#RRGGBB`, and `#RRGGBBAA`. Single-digit components are expanded by
 	/// repeating the digit. When present, the trailing digits encode alpha
-	/// (opacity); otherwise opacity defaults to `1`. Malformed input resolves
-	/// to opaque black.
+	/// (opacity); otherwise opacity defaults to `1`. Surrounding whitespace is
+	/// trimmed. Unsupported lengths resolve to opaque black. At supported
+	/// lengths, Scanner may parse only a leading hexadecimal portion; its
+	/// success result is not checked. Invalid characters therefore do not
+	/// reliably produce opaque black (alpha formats can be transparent).
 	///
 	/// - Parameter code: A hex color code.
 	static func hex(_ code: String) -> SwiftUI.Color {

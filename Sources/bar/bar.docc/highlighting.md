@@ -34,8 +34,9 @@ echo "&!2 workspace 2"    # highlighted with Config.highlights[1]
 echo "workspace 3"        # no highlight
 ```
 
-> Important: The `&!<level>` notation is stripped before rendering, so only the text after it is displayed.
+> Important: A parsed `&!<level>` prefix followed by text is stripped before rendering, so only the text after it is displayed.
 > For example, `&!1 workspace 1` renders as `workspace 1` on a highlighted background.
 
 > Important: The highlight level is a positive integer that indexes into ``Config-swift.enum/highlights`` (1-based).
-> If the level exceeds the number of defined highlights, the cell is treated as unhighlighted.
+> For a parsed prefix followed by text, zero, an out-of-range level, or a number too large to represent as an Int leaves the cell unhighlighted and removes the prefix.
+> Use a level followed by text as shown above: malformed or textless prefixes are not guaranteed to be stripped by the current parser.

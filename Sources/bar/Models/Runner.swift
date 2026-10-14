@@ -3,12 +3,12 @@ import Foundation
 /// Runs a shell command and returns its stdout as separate lines.
 ///
 /// Blocking — always call from a background context (e.g. `Task.detached`).
-/// A 30-second timeout prevents hanging processes from consuming
-/// cooperative pool threads indefinitely.
+/// After 30 seconds, requests termination of the shell process. This is
+/// not a hard execution limit: the shell can ignore termination, and child
+/// processes can keep output pipes open. Pipe reads and waiting can still block.
 enum Runner {
-	/// The maximum time (in seconds) a command is allowed to run before
-	/// being killed. This prevents a single hung process from consuming
-	/// a cooperative thread indefinitely.
+	/// Delay in seconds before requesting shell termination with SIGTERM.
+	/// Does not forcibly kill the shell or terminate its descendants.
 	private static let timeout: Double = 30
 
 	/// Run a command and returns stdout as an array of separated lines.
@@ -17,7 +17,9 @@ enum Runner {
 	///   - env: An optional dictionary of strings to merge into
 	///          the process environment.
 	///
-	/// - Returns: An array of the text lines printed to stdout.
+	/// - Returns: Parsed stdout on success; ["ERROR"] on launch failure or
+	///   nonzero exit, or [""] if successful output cannot be decoded as UTF-8.
+	///   Captured stderr is forwarded only after a nonzero exit.
 	static func run(_ command: String, env: [String: String] = [:]) -> [String] {
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
@@ -36,8 +38,8 @@ enum Runner {
 			return ["ERROR"]
 		}
 
-		// Schedule a kill after the timeout expires.
-		// If the process finishes before that, the timer is cancelled.
+		// Request shell termination after the timeout expires.
+		// Cancel the timer after pipe reads and process waiting finish.
 		let timer = DispatchSource.makeTimerSource()
 		timer.schedule(deadline: .now() + timeout)
 		timer.setEventHandler { [weak process] in

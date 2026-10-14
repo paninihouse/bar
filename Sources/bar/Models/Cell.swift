@@ -9,9 +9,8 @@ import SwiftUI
 /// is then laid out horizontally respecting the order.
 ///
 /// ### Highlight
-/// Besides the underlying text value, a cell holds an
-/// highlight level (as Int) that, if true, applies the
-/// special background color defined in ``Config``.
+/// Besides the underlying text value, a cell holds a background
+/// color selected by a highlight level from ``Config``.
 /// You can set the highlight at runtime by prefixing the
 /// text line with the special notation `&!<level>`, where
 /// `<level>` is a positive integer that can be used as an
@@ -28,11 +27,11 @@ import SwiftUI
 /// within a group. For example when you want to show
 /// window manager workspaces and which one is active.
 struct Cell: RawRepresentable, Identifiable {
-	/// Stable identity for SwiftUI diffing.
+	/// A content-derived identifier combining text and highlight.
 	///
-	/// The id is constructed by the rawValue + highlight
-	/// so that SwiftUI redraws the cell only on content
-	/// change and not every time the cell is computed.
+	/// Identical cells share this value and content changes change it.
+	/// ``BlockView`` uses line positions to distinguish rendered cells;
+	/// view identity does not prevent updates to their displayed content.
 	let id: String
 
 	/// The represented text content.

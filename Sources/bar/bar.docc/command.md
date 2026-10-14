@@ -5,6 +5,9 @@ How the block's command is executed.
 Each block runs its ``Config-swift.enum/Block/command`` as a shell script via `/bin/sh -c`.
 The standard output is captured and **each line becomes one ``Cell``** in the bar.
 Cells are laid out horizontally in the order they appear.
+One final newline is removed; other blank lines and spaces are preserved.
+A successful command with empty stdout produces no cells, hiding the block.
+Printing a newline produces a blank cell rather than hiding it.
 
 ```shell
 # A single-line command produces one cell
@@ -26,7 +29,13 @@ On the contrary, if you run `bar` from a launch agent, you'll probably not have 
 ## Error handling
 
 If the command exits with a non-zero status or cannot be launched, the block displays a single cell containing the text `ERROR`.
-The command's stderr is forwarded to the `bar` process stderr, which you can inspect for the actual failure.
+After a non-zero exit, captured stderr is forwarded to the `bar` process stderr.
+Stderr from a successful command is discarded, and launch failures do not forward a diagnostic.
+Successful stdout that cannot be decoded as UTF-8 produces a blank cell.
+
+After 30 seconds, *bar* requests termination of the shell with SIGTERM.
+This is not a hard deadline: a shell can ignore the signal, and child processes can keep the output pipes open.
+The current runner reads stdout and then stderr before waiting for exit, so commands with enough stderr output can also block while stdout is being read.
 
 ```shell
 # Example: simulate a command failure

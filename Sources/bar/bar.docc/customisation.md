@@ -29,7 +29,7 @@ enum Config {
 
 ## HEX Colors
 
-You can use any standard SwiftUI color. For convenience, we also provide the ``HEX`` type for defining colors by hex code directly in source:
+You can use any standard SwiftUI color. For convenience, `Color.hex(_:)` parses hex strings directly in source, and ``HEX`` wraps a stored hex code:
 
 ```swift
 static let foreground: Color = .hex("#CDD6F4")

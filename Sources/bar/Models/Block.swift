@@ -9,7 +9,8 @@ import Foundation
 /// notifications (see ``Notifier``).
 @MainActor
 final class Block: ObservableObject, Identifiable {
-	/// Stable identity for SwiftUI diffing.
+	/// Distinguishes this block instance in SwiftUI, even when names match.
+	/// Content updates are published separately through ``cells``.
 	let id = UUID()
 
 	/// Identifier used for manual updates via Darwin
@@ -70,7 +71,7 @@ final class Block: ObservableObject, Identifiable {
 		}
 	}
 
-	/// Stop the interval timer.
+	/// Cancel future interval refreshes. Already-running commands continue.
 	func stop() {
 		tick?.cancel()
 	}

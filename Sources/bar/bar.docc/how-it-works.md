@@ -15,7 +15,8 @@ You're supposed to fully understand how it works, make it yours, and ultimately 
 
 *bar* does not read a configuration file somewhere on your system.
 Instead, configuration happens directly in the source code by editing ``Config`` and rebuilding the software.
-This approach allows us to keep the software extremely minimal and reliable, since all the possible errors are caught at build time.
+This keeps configuration simple and lets the Swift compiler catch syntax and type errors when you build.
+Shell commands and string values, such as hex color codes, are interpreted at runtime, so you still need to check their output and behavior.
 
 ## No pre-built binaries
 

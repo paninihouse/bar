@@ -53,7 +53,7 @@ static let blocks: [Block] = [
 
 ### Intuitive shell scripting
 
-Populate the block by writing to `stdout`, hide it by exiting with `0`:
+Populate the block by writing to `stdout`. To hide it, exit with `0` without printing anything to `stdout`:
 
 ```shell
 if [[ -n $session ]]; then

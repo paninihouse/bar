@@ -30,7 +30,8 @@ enum Config {
 	//
 	// You can use system default colors and the standard SwiftUI
 	// methods to define them. However, for convenience we added
-	// support for hex colors too (see ``HEX``).
+	// support for hex colors too (see ``HEX``). These strings are parsed
+	// at runtime, so the compiler does not check their format.
 	//
 	// E.g: `.hex("#000000")`
 
@@ -110,7 +111,8 @@ extension Config {
 		/// The interval, in seconds, at which the command is executed.
 		///
 		/// If set to `nil`, the block will be evaluated just once
-		/// at launch. You can of course trigger a manual update via
+		/// at launch. Zero and negative intervals also disable repeating updates.
+		/// You can of course trigger a manual update via
 		/// a notification later on.
 		let interval: Double?
 
