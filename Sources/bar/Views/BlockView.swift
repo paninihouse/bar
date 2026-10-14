@@ -3,40 +3,72 @@ import SwiftUI
 struct BlockView: View {
 	@ObservedObject var block: Block
 
-	@State private var hoveredCell: Cell?
-	@State private var eventsMonitor: Any?
+	@State private var interaction = BlockInteraction()
 
 	var body: some View {
 		HStack(spacing: 0) {
-			ForEach(block.cells) { cell in
-				CellView(cell: cell)
+			ForEach(block.cells.indices, id: \.self) { index in
+				CellView(cell: block.cells[index])
 					.onHover { hovering in
 						if hovering {
-							hoveredCell = cell
-						} else if hoveredCell?.id == cell.id {
-							hoveredCell = nil
+							interaction.hoveredIndex = index
+						} else if interaction.hoveredIndex == index {
+							interaction.hoveredIndex = nil
 						}
 					}
 			}
 		}
-		.onAppear {
-			let monitor = NSEvent.addLocalMonitorForEvents(matching: [
-				.leftMouseDown,
-				.rightMouseDown,
-				.otherMouseDown,
-				.scrollWheel,
-			]) { [weak block] event in
-				guard let block else { return event }
-				return self.handle(event: event, block: block)
-			}
-			self.eventsMonitor = monitor as Any
+		.onAppear { [weak block, weak interaction] in
+			guard let block else { return }
+			interaction?.start(block: block)
 		}
-		.onDisappear {
-			if let eventsMonitor {
-				NSEvent.removeMonitor(eventsMonitor)
-				self.eventsMonitor = nil
+		.onDisappear { [weak interaction] in
+			interaction?.stop()
+		}
+		.onChange(of: block.cells.count) { _, count in
+			if let index = interaction.hoveredIndex, index >= count {
+				interaction.hoveredIndex = nil
 			}
 		}
+	}
+}
+
+/// Per-view state: the application-owned monitor must not retain its owner
+/// or the block. Disappearance removes it; destruction is a fallback when
+/// a hosting view is discarded without a disappearance callback.
+@MainActor
+final class BlockInteraction {
+	var hoveredIndex: Int?
+	private(set) var eventsMonitor: Any?
+
+	func start(block: Block) {
+		guard eventsMonitor == nil else { return }
+		eventsMonitor = NSEvent.addLocalMonitorForEvents(matching: [
+			.leftMouseDown,
+			.rightMouseDown,
+			.otherMouseDown,
+			.scrollWheel,
+		]) { [weak block, weak self] event in
+			guard let block, let self else { return event }
+			return self.handle(event: event, block: block)
+		}
+	}
+
+	func stop() {
+		if let eventsMonitor {
+			NSEvent.removeMonitor(eventsMonitor)
+			self.eventsMonitor = nil
+		}
+		hoveredIndex = nil
+	}
+
+	isolated deinit {
+		if let eventsMonitor { NSEvent.removeMonitor(eventsMonitor) }
+	}
+
+	func hoveredCell(in block: Block) -> Cell? {
+		guard let index = hoveredIndex, block.cells.indices.contains(index) else { return nil }
+		return block.cells[index]
 	}
 
 	/// Processes an event when a cell is hovered, re-running the script
@@ -45,7 +77,7 @@ struct BlockView: View {
 	///
 	/// - Returns: The original event so the system continues normal delivery.
 	private func handle(event: NSEvent, block: Block) -> NSEvent {
-		guard let cell = hoveredCell else { return event }
+		guard let cell = hoveredCell(in: block) else { return event }
 
 		switch event.type {
 		case .leftMouseDown, .rightMouseDown, .otherMouseDown:
