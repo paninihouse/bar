@@ -27,9 +27,9 @@ enum Config {
 > Tip: While testing the configuration you might want to use the `make run` target.
 > It will build and execute the program right away, without copying the binaries.
 
-## HEX Colors
+## Hex colors
 
-You can use any standard SwiftUI color. For convenience, `Color.hex(_:)` parses hex strings directly in source, and ``HEX`` wraps a stored hex code:
+You can use any standard SwiftUI color. For convenience, `Color.hex(_:)` parses hex strings directly in source:
 
 ```swift
 static let foreground: Color = .hex("#CDD6F4")

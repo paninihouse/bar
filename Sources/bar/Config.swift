@@ -30,7 +30,7 @@ enum Config {
 	//
 	// You can use system default colors and the standard SwiftUI
 	// methods to define them. However, for convenience we added
-	// support for hex colors too (see ``HEX``). These strings are parsed
+	// support for hex colors too with `Color.hex(_:)`. These strings are parsed
 	// at runtime, so the compiler does not check their format.
 	//
 	// E.g: `.hex("#000000")`
