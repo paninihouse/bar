@@ -1,6 +1,6 @@
 # Validate complete hex color input
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 160
 - TAGS: review,bug,core
 
@@ -13,3 +13,20 @@ Approach: Validate every character and require complete successful conversion be
 Completion checks: Valid short and long RGB/RGBA resolve correctly, including lowercase and alpha. Invalid characters at the start/middle/end, unsupported lengths, empty input, and partial scans all resolve to opaque black. Keep parsing independent of any new configuration framework and verify existing Config colors retain their appearance.
 
 Design constraint: Follow README.md: keep source-based configuration, no dependencies or plugin framework, and use the smallest readable change that makes the existing behavior reliable. This is a suggestion for individual review, not a deadline. Findings were recorded on 2026-10-14; re-check the current code before implementing.
+
+## Completion
+
+Updated the retained helper in Sources/bar/Models/Color+Hex.swift (HEX.swift was
+removed by task 20261014-192305). Validate all characters as ASCII hexadecimal
+digits and require complete UInt64(radix: 16) conversion before extracting
+components. Unsupported lengths and malformed input consistently return opaque
+sRGB black. Optional #, surrounding whitespace, letter case, repeated short
+digits, trailing alpha, and Config appearance are preserved. Updated the helper
+comment and customization documentation to state the fallback.
+
+Added ColorHexTests covering all four valid formats, mixed case, whitespace,
+transparent and opaque alpha, 27 malformed inputs including invalid characters
+at start/middle/end and partial scans, and the configured colors' resolved RGBA.
+Validation: swift test passed all seven tests (including 27 malformed-input
+cases); the clean DocC workflow built the app and documentation without warnings;
+git diff --check passed.

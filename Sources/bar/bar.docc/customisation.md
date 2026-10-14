@@ -36,6 +36,9 @@ static let foreground: Color = .hex("#CDD6F4")
 ```
 
 Supported formats (the leading `#` is optional): `#RGB`, `#RGBA`, `#RRGGBB`, `#RRGGBBAA`.
+Surrounding whitespace is ignored, and letters can be uppercase or lowercase.
+Short components repeat their digit (`#3aF` becomes `#33AAFF`); trailing alpha sets opacity, which otherwise defaults to 1.
+Unsupported lengths or invalid characters produce opaque black.
 
 ## Spacing
 

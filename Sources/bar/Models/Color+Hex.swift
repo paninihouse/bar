@@ -7,10 +7,8 @@ extension SwiftUI.Color {
 	/// `#RRGGBB`, and `#RRGGBBAA`. Single-digit components are expanded by
 	/// repeating the digit. When present, the trailing digits encode alpha
 	/// (opacity); otherwise opacity defaults to `1`. Surrounding whitespace is
-	/// trimmed. Unsupported lengths resolve to opaque black. At supported
-	/// lengths, Scanner may parse only a leading hexadecimal portion; its
-	/// success result is not checked. Invalid characters therefore do not
-	/// reliably produce opaque black (alpha formats can be transparent).
+	/// trimmed. Unsupported lengths or any non-hexadecimal characters resolve
+	/// to opaque black.
 	///
 	/// - Parameter code: A hex color code.
 	static func hex(_ code: String) -> SwiftUI.Color {
@@ -19,8 +17,12 @@ extension SwiftUI.Color {
 			sanitized.removeFirst()
 		}
 
-		var rgba: UInt64 = 0
-		Scanner(string: sanitized).scanHexInt64(&rgba)
+		// Restrict input to ASCII hex digits; integer conversion also accepts signs.
+		guard sanitized.utf8.allSatisfy({
+			(48...57).contains($0) || (65...70).contains($0) || (97...102).contains($0)
+		}), let rgba = UInt64(sanitized, radix: 16) else {
+			return Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 1)
+		}
 
 		let red: Double
 		let green: Double
