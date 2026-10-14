@@ -1,5 +1,6 @@
 import RegexBuilder
 import SwiftUI
+import Synchronization
 
 /// A thin wrapper around a single text line captured
 /// by a block.
@@ -27,6 +28,15 @@ import SwiftUI
 /// within a group. For example when you want to show
 /// window manager workspaces and which one is active.
 struct Cell: RawRepresentable, Identifiable {
+	/// Build the parser once rather than on every refresh of every cell.
+	private static let pattern = Mutex(Regex {
+		Optionally {
+			"&!"
+			Capture { OneOrMore(.digit) }
+		}
+		Capture { OneOrMore(.any) }
+	})
+
 	/// A content-derived identifier combining text and highlight.
 	///
 	/// Identical cells share this value and content changes change it.
@@ -41,15 +51,7 @@ struct Cell: RawRepresentable, Identifiable {
 	var background: Color
 
 	init(rawValue: String) {
-		let pattern = Regex {
-			Optionally {
-				"&!"
-				Capture { OneOrMore(.digit) }
-			}
-			Capture { OneOrMore(.any) }
-		}
-
-		guard let match = rawValue.firstMatch(of: pattern) else {
+		guard let match = Self.pattern.withLock({ rawValue.firstMatch(of: $0) }) else {
 			self.rawValue = rawValue
 			self.background = .clear
 			self.id = "\(rawValue):0"

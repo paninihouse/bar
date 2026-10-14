@@ -21,6 +21,12 @@ enum Runner {
 	///   nonzero exit, or [""] if successful output cannot be decoded as UTF-8.
 	///   Captured stderr is forwarded only after a nonzero exit.
 	static func run(_ command: String, env: [String: String] = [:]) -> [String] {
+		// Detached tasks do not run inside AppKit's main event-loop pool.
+		// Drain temporary Foundation objects at the end of each command.
+		autoreleasepool { execute(command, env: env) }
+	}
+
+	private static func execute(_ command: String, env: [String: String]) -> [String] {
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
 		process.arguments = ["-c", command]

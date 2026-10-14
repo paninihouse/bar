@@ -44,6 +44,7 @@ final class Block: ObservableObject, Identifiable {
 	@Published var cells: [Cell] = []
 
 	private var tick: Task<Void, Never>?
+	private var lastLines: [String]?
 
 	init(name: String, placement: Config.Block.Placement, command: String, interval: Double? = nil) {
 		self.name = name
@@ -81,7 +82,11 @@ final class Block: ObservableObject, Identifiable {
 	/// Each line becomes a ``Cell``. This is always called
 	/// on the main actor so SwiftUI sees the update immediately.
 	@MainActor
-	private func apply(_ lines: [String]) {
+	func apply(_ lines: [String]) {
+		// A refresh often returns the same text. Avoid parsing and invalidating
+		// every hosting view when nothing changed (including highlight prefixes).
+		guard lines != lastLines else { return }
+		lastLines = lines
 		self.cells = lines.map { Cell(rawValue: $0) }
 	}
 
