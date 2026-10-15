@@ -51,3 +51,31 @@ private func runCommand(_ command: String, env: [String: String] = [:]) throws -
     let result = try runCommand("printf ' %s \\n\\nlast\\n' \"$BAR_RUNNER_TEST\"; test -n \"$PATH\"", env: ["BAR_RUNNER_TEST": "value"])
     #expect(result.lines == [" value ", "", "last"])
 }
+
+@Test func parsingEmptyOutputProducesNoCells() {
+    #expect(Runner.parse("") == [])
+}
+
+@Test func parsingRemovesOneFinalNewline() {
+    #expect(Runner.parse("cell\n") == ["cell"])
+    #expect(Runner.parse("cell") == ["cell"])
+}
+
+@Test func parsingPreservesInternalBlankLines() {
+    #expect(Runner.parse("first\n\n\nlast\n") == ["first", "", "", "last"])
+    #expect(Runner.parse("\nfirst") == ["", "first"])
+}
+
+@Test func parsingPreservesAdditionalTrailingBlankLines() {
+    #expect(Runner.parse("cell\n\n\n") == ["cell", "", ""])
+    #expect(Runner.parse("\n") == [""])
+    #expect(Runner.parse("\n\n") == ["", ""])
+}
+
+@Test func parsingPreservesLineOrder() {
+    #expect(Runner.parse("third\nfirst\nsecond\n") == ["third", "first", "second"])
+}
+
+@Test func parsingDoesNotTrimWhitespace() {
+    #expect(Runner.parse(" leading\ntrailing \n\t \t\n") == [" leading", "trailing ", "\t \t"])
+}
