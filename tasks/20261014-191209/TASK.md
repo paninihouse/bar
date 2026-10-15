@@ -13,3 +13,9 @@ Approach: First reproduce a SIGTERM-ignoring command and a shell with a descenda
 Completion checks: Normal commands complete without later signals. Both reproductions return ERROR within timeout plus documented grace, release readers, and leave no owned child running. Allow a short timeout in tests without adding a user-facing configuration system. Review together with concurrent pipe draining.
 
 Design constraint: Follow README.md: keep source-based configuration, no dependencies or plugin framework, and use the smallest readable change that makes the existing behavior reliable. This is a suggestion for individual review, not a deadline. Findings were recorded on 2026-10-14; re-check the current code before implementing.
+
+Integration note (2026-10-15): task 20261014-190252 now drains stderr on one GCD
+worker while the caller drains stdout, and joins the worker with a DispatchGroup.
+Runner still owns the single termination timer and cancels it after both readers
+and process waiting finish. Bounded cleanup must release both readers; the
+concurrent-draining change does not alter the existing timeout guarantees.

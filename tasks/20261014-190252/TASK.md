@@ -1,6 +1,6 @@
 # Drain command stdout and stderr concurrently
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 10
 - TAGS: review, bug, core
 
@@ -13,3 +13,12 @@ Approach: Drain both pipes concurrently using a small, clearly owned implementat
 Completion checks: A command writes substantially more than pipe capacity to stderr and then emits stdout; it finishes promptly and stdout is correct. Check simultaneous large stdout/stderr, normal empty output, and nonzero exit diagnostics. Add focused regression tests with an outer deadline so a failure cannot hang the test suite. Coordinate timeout ownership with the separate timeout task.
 
 Design constraint: Follow README.md: keep source-based configuration, no dependencies or plugin framework, and use the smallest readable change that makes the existing behavior reliable. This is a suggestion for individual review, not a deadline. Findings were recorded on 2026-10-14; re-check the current code before implementing.
+
+Implemented 2026-10-15: the blocking caller drains stdout while one GCD worker
+reads and forwards stderr, including on success. A DispatchGroup joins the
+worker before returning. Existing timeout behavior is unchanged.
+
+Validation: `swift test` passes all 13 tests. Regression cases cover 1 MiB
+stderr before stdout, simultaneous 1 MiB streams, empty output, nonzero exit
+diagnostics, and shell environment/whitespace preservation. Each uses a
+five-second outer wait so a stalled Runner fails the test promptly.

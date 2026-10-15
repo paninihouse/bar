@@ -29,13 +29,13 @@ On the contrary, if you run `bar` from a launch agent, you'll probably not have 
 ## Error handling
 
 If the command exits with a non-zero status or cannot be launched, the block displays a single cell containing the text `ERROR`.
-After a non-zero exit, captured stderr is forwarded to the `bar` process stderr.
-Stderr from a successful command is discarded, and launch failures do not forward a diagnostic.
+Captured stderr is forwarded to the `bar` process stderr, including on successful exits.
+Launch failures do not forward a diagnostic.
 Successful stdout that cannot be decoded as UTF-8 produces a blank cell.
 
 After 30 seconds, *bar* requests termination of the shell with SIGTERM.
 This is not a hard deadline: a shell can ignore the signal, and child processes can keep the output pipes open.
-The current runner reads stdout and then stderr before waiting for exit, so commands with enough stderr output can also block while stdout is being read.
+Stdout and stderr are drained concurrently so a full output pipe does not stall the command.
 
 ```shell
 # Example: simulate a command failure

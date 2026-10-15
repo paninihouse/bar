@@ -19,14 +19,15 @@ enum Runner {
 	///
 	/// - Returns: Parsed stdout on success; ["ERROR"] on launch failure or
 	///   nonzero exit, or [""] if successful output cannot be decoded as UTF-8.
-	///   Captured stderr is forwarded only after a nonzero exit.
-	static func run(_ command: String, env: [String: String] = [:]) -> [String] {
+	///   Captured stderr is forwarded regardless of exit status.
+	static func run(_ command: String, env: [String: String] = [:],
+	                errorOutput: FileHandle = .standardError) -> [String] {
 		// Detached tasks do not run inside AppKit's main event-loop pool.
 		// Drain temporary Foundation objects at the end of each command.
-		autoreleasepool { execute(command, env: env) }
+		autoreleasepool { execute(command, env: env, errorOutput: errorOutput) }
 	}
 
-	private static func execute(_ command: String, env: [String: String]) -> [String] {
+	private static func execute(_ command: String, env: [String: String], errorOutput: FileHandle) -> [String] {
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
 		process.arguments = ["-c", command]
@@ -53,14 +54,21 @@ enum Runner {
 		}
 		timer.resume()
 
+		// Drain stderr alongside stdout so neither full pipe can stall the child.
+		// Use GCD for this blocking read, not Swift's cooperative executor.
+		let diagnostics = DispatchGroup()
+		DispatchQueue.global(qos: .utility).async(group: diagnostics) {
+			autoreleasepool {
+				write(stderr.fileHandleForReading.readDataToEndOfFile(), to: errorOutput)
+			}
+		}
 		let data = stdout.fileHandleForReading.readDataToEndOfFile()
-		let errData = stderr.fileHandleForReading.readDataToEndOfFile()
 		process.waitUntilExit()
+		diagnostics.wait()
 
 		timer.cancel()
 
 		guard process.terminationStatus == 0 else {
-			write(errData, to: .standardError)
 			return ["ERROR"]
 		}
 
