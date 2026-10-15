@@ -6,7 +6,7 @@ build:
 
 .PHONY: run
 run:
-	swift run bar -c debug
+	swift run -c debug bar
 
 .PHONY: clean
 clean:
@@ -14,12 +14,12 @@ clean:
 
 .PHONY: install
 install: build
-	@install -d $(PREFIX)/bin/
-	@install -Dm755 .build/release/bar $(PREFIX)/bin/
+	@install -d "$(PREFIX)/bin/"
+	@install -m 755 ".build/release/bar" "$(PREFIX)/bin/"
 
 .PHONY: uninstall
 uninstall:
-	@rm -f $(PREFIX)/bin/bar
+	@rm -f "$(PREFIX)/bin/bar"
 
 .PHONY: docs
 docs: .build/release/bar

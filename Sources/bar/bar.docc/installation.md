@@ -30,7 +30,7 @@ make install
 > You can override the install location by setting `PREFIX`:
 >
 > ```shell
-> make install PREFIX=/usr/local/bin
+> make install PREFIX=/usr/local
 > ```
 
 > Tip: While iterating on the configuration, use `make run` instead.
@@ -42,5 +42,6 @@ If you don't have `make`, build directly with the Swift Package Manager:
 
 ```shell
 swift build -c release
+mkdir -p ~/.local/bin
 cp .build/release/bar ~/.local/bin/
 ```

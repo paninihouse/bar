@@ -1,6 +1,6 @@
 # Correct macOS build and installation commands
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 150
 - TAGS: review,bug,build,docs
 
@@ -13,3 +13,14 @@ Approach: Use swift run -c debug bar. Keep install -d, followed by macOS-compati
 Completion checks: Run make build and inspect/run make run on macOS. Install into a temporary writable prefix, including one with spaces; confirm executable location and permissions and exercise uninstall only in that temporary prefix. Check docs match the exact resulting paths. Do not overwrite the user's installed bar during verification.
 
 Design constraint: Follow README.md: keep source-based configuration, no dependencies or plugin framework, and use the smallest readable change that makes the existing behavior reliable. This is a suggestion for individual review, not a deadline. Findings were recorded on 2026-10-14; re-check the current code before implementing.
+
+Completed 2026-10-15: corrected Swift run option order, replaced GNU install
+flags with macOS-compatible install commands, quoted installation/uninstallation
+paths, and corrected the documented prefix and manual directory creation.
+
+Validation: `make build` passed on macOS. `make -n run` prints
+`swift run -c debug bar`. Installation into two temporary writable prefixes,
+including one containing spaces, produced an identical binary at `<prefix>/bin/bar`
+with mode 755; uninstall removed each binary. Installation checks used
+`make install -o build` to reuse the verified release build. No existing user
+installation was changed. `git diff --check` passed.
