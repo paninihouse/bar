@@ -34,9 +34,11 @@ echo "&!2 workspace 2"    # highlighted with Config.highlights[1]
 echo "workspace 3"        # no highlight
 ```
 
-> Important: A parsed `&!<level>` prefix followed by text is stripped before rendering, so only the text after it is displayed.
-> For example, `&!1 workspace 1` renders as `workspace 1` on a highlighted background.
+> Important: Only a prefix at the start of the line is recognized. Its level uses ASCII digits (`0`–`9`), and the entire digit sequence is consumed. A nonempty body must follow it. Whitespace counts as a body and is preserved exactly: `&!1 workspace 1` renders as ` workspace 1`, including the leading space.
 
-> Important: The highlight level is a positive integer that indexes into ``Config-swift.enum/highlights`` (1-based).
-> For a parsed prefix followed by text, zero, an out-of-range level, or a number too large to represent as an Int leaves the cell unhighlighted and removes the prefix.
-> Use a level followed by text as shown above: malformed or textless prefixes are not guaranteed to be stripped by the current parser.
+The highlight level is a positive integer that indexes into ``Config-swift.enum/highlights`` (1-based).
+With a nonempty body, zero, an out-of-range level, or an integer overflow removes the prefix but leaves the body unhighlighted.
+Leading zeroes are allowed (`&!01 text` selects level 1).
+
+Empty input, textless prefixes such as `&!1` and `&!12`, and malformed prefixes such as `&!`, `&!-1 text`, or `&!１ text` remain literal and unhighlighted.
+Embedded prefixes also remain literal, as in `text &!1 more`.

@@ -1,6 +1,6 @@
 # Parse highlight prefixes without regex backtracking surprises
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 60
 - TAGS: review,bug,core
 
@@ -13,3 +13,5 @@ Approach: Define the contract for a prefix with no body, zero/out-of-range level
 Completion checks: Cover ordinary text, valid levels, &!1, &!12, &!0 text, out-of-range and huge levels, malformed prefixes, embedded &!, empty text, and whitespace-only bodies. No partial level interpretation is possible. Preserve the existing one-based Config.highlights convention.
 
 Design constraint: Follow README.md: keep source-based configuration, no dependencies or plugin framework, and use the smallest readable change that makes the existing behavior reliable. This is a suggestion for individual review, not a deadline. Findings were recorded on 2026-10-14; re-check the current code before implementing.
+
+Implemented an explicit leading-prefix parser with ASCII digits and no partial level interpretation. Textless and malformed prefixes remain literal; numeric prefixes with a body are stripped even when the level is invalid. Body whitespace and one-based highlight indexing are preserved. Added parser regression coverage and documented the contract. Validation: `swift test` passed all 22 tests.
