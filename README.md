@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-	<img alt="bar screenshot" src="Sources/bar/bar.docc/bar.png" width="100%">
+	<img alt="bar screenshot" src="https://raw.githubusercontent.com/paninihouse/bar/refs/heads/master/Sources/bar/bar.docc/bar.png" width="100%">
 </p>
 
 <p align="center">
